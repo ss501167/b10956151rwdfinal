@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>隨機驗證彈出式視窗</title>
+  <script>
+    function generateRandomNumber() {
+      return Math.floor(Math.random() * 100) + 1; // 生成1到100之間的隨機數
+    }
+
+    function verifyNumber() {
+      var inputNumber = document.getElementById("numberInput").value;
+      var randomNumber = sessionStorage.getItem("randomNumber");
+      
+      if (inputNumber == randomNumber) {
+        alert("驗證成功！");
+        closeVerificationPopup()
+        window.location.href = "report.html"; // 跳轉到指定頁面
+        // 在這裡執行跳轉到目標頁面的程式碼
+      } else {
+        alert("驗證失敗！請重新輸入。");
+      }
+    }
+
+    function showVerificationPopup() {
+      var randomNumber = generateRandomNumber();
+      sessionStorage.setItem("randomNumber", randomNumber);
+      
+      var popup = document.getElementById("verificationPopup");
+      popup.style.display = "block";
+      document.getElementById("randomNumberDisplay").innerHTML = randomNumber;
+    }
+
+    function closeVerificationPopup() {
+      var popup = document.getElementById("verificationPopup");
+      popup.style.display = "none";
+    }
+  </script>
+  <style>
+    #verificationPopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    #verificationPopup .popupContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #verificationPopup button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>隨機驗證彈出式視窗</h1>
+  <button onclick="showVerificationPopup()">進行驗證</button>
+
+  <div id="verificationPopup">
+    <div class="popupContent">
+      <h2>請輸入以下隨機數字：</h2>
+      <p id="randomNumberDisplay"></p>
+      <input type="text" id="numberInput">
+      <br>
+      <button onclick="verifyNumber()">驗證</button>
+      <button onclick="closeVerificationPopup()">取消</button>
+    </div>
+  </div>
+</body>
+</html>
